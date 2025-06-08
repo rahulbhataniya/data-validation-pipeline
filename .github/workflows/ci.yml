@@ -18,7 +18,7 @@ jobs:
 
       kafka:
         image: confluentinc/cp-kafka:latest
-       
+
         ports:
         - 9092:9092
         env:
@@ -39,6 +39,11 @@ jobs:
 
     - name: Install dependencies
       run: go mod tidy
+
+    - name: Wait for Kafka to be ready
+      run: |
+        echo "Waiting for Kafka..."
+        sleep 20
 
     - name: Run tests
       run: make test
