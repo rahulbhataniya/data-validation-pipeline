@@ -21,7 +21,7 @@ jobs:
 
     - name: Start Kafka & Zookeeper
       run: |
-        docker-compose -f docker-compose.yml up -d
+        docker compose -f docker-compose.yml up -d
         echo "Waiting for Kafka and Zookeeper to be ready..."
         sleep 20
 
