@@ -1,0 +1,20 @@
+#!/bin/bash
+
+TOPIC=$1
+KAFKA_CONTAINER="data-validation-pipeline-kafka-1"
+
+# Fallback if container name is not exact
+if ! docker ps --format '{{.Names}}' | grep -q "$KAFKA_CONTAINER"; then
+  KAFKA_CONTAINER=$(docker ps --format '{{.Names}}' | grep kafka)
+fi
+
+EXISTING=$(docker exec -it $KAFKA_CONTAINER kafka-topics --bootstrap-server localhost:9092 --list | grep "^${TOPIC}$")
+if [ -z "$EXISTING" ]; then
+  echo "Creating topic $TOPIC..."
+  docker exec -it $KAFKA_CONTAINER kafka-topics \
+    --create --topic "$TOPIC" \
+    --bootstrap-server localhost:9092 \
+    --replication-factor 1 --partitions 1
+else
+  echo "Topic $TOPIC already exists."
+fi
