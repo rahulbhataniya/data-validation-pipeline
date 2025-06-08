@@ -18,10 +18,11 @@ jobs:
 
       kafka:
         image: confluentinc/cp-kafka:latest
+       
         ports:
         - 9092:9092
         env:
-          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+          KAFKA_ZOOKEEPER_CONNECT: localhost:2181
           KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
           KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
         options: >-
